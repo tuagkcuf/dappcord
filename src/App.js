@@ -18,10 +18,12 @@ import config from "./config.json"
 const socket = io("ws://localhost:3030")
 
 function App() {
+    const [account, setAccount] = useState(null)
+
     const loadBlockchaindData = async () => {
-        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" })
-        const account = ethers.utils.getAddress(accounts[0])
-        console.log(account)
+        window.ethereum.on("accountsChanged", async () => {
+            window.location.reload()
+        })
     }
 
     useEffect(() => {
@@ -30,8 +32,13 @@ function App() {
 
     return (
         <div>
-            <Navigation />
-            <main></main>
+            <Navigation account={account} setAccount={setAccount} />
+
+            <main>
+                <Servers />
+                <Channels />
+                <Messages />
+            </main>
         </div>
     )
 }
