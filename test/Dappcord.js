@@ -14,7 +14,7 @@ describe("Dappcord", function () {
 
     beforeEach(async () => {
         // Setup accounts
-        [deployer, user] = await ethers.getSigners()
+        ;[deployer, user] = await ethers.getSigners()
 
         // Deploy contract
         const Dappcord = await ethers.getContractFactory("Dappcord")
@@ -49,9 +49,34 @@ describe("Dappcord", function () {
 
         it("Returns channel attributes", async () => {
             const channel = await dappcord.getChannel(1)
-            expect(channel.id).to.be.equal(1)
+            expect(channel.id.toNumber()).to.be.equal(1)
             expect(channel.name).to.be.equal("general")
-            expect(channel.cost).to.be.equal(tokens(1))
+            expect(channel.cost.toString()).to.be.equal(tokens(1).toString())
+        })
+    })
+
+    describe("Joining Channels", () => {
+        const ID = 1
+        const AMOUNT = ethers.utils.parseUnits("1", "ether")
+
+        beforeEach(async () => {
+            const transaction = await dappcord.connect(user).mint(ID, { value: AMOUNT })
+            await transaction.wait()
+        })
+
+        it("Joins the user", async () => {
+            const result = await dappcord.hasJoined(ID, user.address)
+            expect(result).to.be.equal(true)
+        })
+
+        it("Increases total supply", async () => {
+            const result = (await dappcord.totalSupply()).toString()
+            expect(result).to.be.equal(ID.toString())
+        })
+
+        it("Updates the contract balance", async () => {
+            const result = (await ethers.provider.getBalance(dappcord.address)).toString()
+            expect(result).to.be.equal(AMOUNT.toString())
         })
     })
 })
