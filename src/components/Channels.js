@@ -6,10 +6,13 @@ const Channels = ({ provider, account, dappcord, channels, currentChannel, setCu
             console.log(hasJoined)
         } else {
             const signer = await provider.getSigner()
-            await dap
+            const transaction = await dappcord
+                .connect(signer)
+                .mint(channel.id, { value: channel.cost })
+            await transaction.wait()
         }
     }
-    
+
     return (
         <div className="channels">
             <div className="channels__text">
@@ -21,10 +24,7 @@ const Channels = ({ provider, account, dappcord, channels, currentChannel, setCu
 
                 <ul>
                     {channels.map((channel, index) => (
-                        <li 
-                            key={index}
-                            onClick={() => channelHandler(channel)}
-                        >
+                        <li key={index} onClick={() => channelHandler(channel)}>
                             {channel.name}
                         </li>
                     ))}

@@ -20,7 +20,9 @@ async function main() {
     const COSTS = [tokens(1), tokens(0), tokens(0.25)]
 
     for (let i = 0; i < 3; i++) {
-        const transaction = await dappcord.connect(deployer).createChannel(CHANNEL_NAMES[i], COSTS[i])
+        const transaction = await dappcord
+            .connect(deployer)
+            .createChannel(CHANNEL_NAMES[i], COSTS[i])
         await transaction.wait()
 
         console.log(`Created text channel #${CHANNEL_NAMES[i]}`)

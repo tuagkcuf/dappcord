@@ -70,6 +70,8 @@ function App() {
                     account={account}
                     dappcord={dappcord}
                     channels={channels}
+                    currentChannel={currentChannel}
+                    setCurrentChannel={setCurrentChannel}
                 />
 
                 <Messages account={account} messages={messages} currentChannel={currentChannel} />

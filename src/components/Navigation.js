@@ -1,4 +1,5 @@
 import { ethers } from "ethers"
+import { useEffect } from "react"
 
 const Navigation = ({ account, setAccount }) => {
     const connectHandler = async () => {
@@ -6,6 +7,10 @@ const Navigation = ({ account, setAccount }) => {
         const account = ethers.utils.getAddress(accounts[0])
         setAccount(account)
     }
+
+    useEffect(() => {
+        connectHandler()
+    })
 
     return (
         <nav>
