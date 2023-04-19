@@ -11,7 +11,9 @@ const socket = io("ws://localhost:3030")
 const Messages = ({ account, messages, currentChannel }) => {
     return (
         <div className="text">
-            <div className="messages"></div>
+            <div className="messages">
+                
+            </div>
         </div>
     )
 }

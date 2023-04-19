@@ -32,7 +32,6 @@ function App() {
         setProvider(provider)
 
         const network = await provider.getNetwork()
-        console.log(await provider.getCode(config[network.chainId]["Dappcord"]["address"]))
         const dappcord = new ethers.Contract(
             config[network.chainId]["Dappcord"]["address"],
             Dappcord,
@@ -57,6 +56,22 @@ function App() {
 
     useEffect(() => {
         loadBlockchainData()
+
+        socket.on("connect", () => {
+            socket.emit("get messages")
+        })
+        socket.on("new message", (messages) => {
+            setMessages(messages)
+        })
+        socket.on("get messages", (messages) => {
+            setMessages(messages)
+        })
+
+        return () => {
+            socket.off("connect")
+            socket.off("new message")
+            socket.off("get message")
+        }
     }, [])
 
     return (
