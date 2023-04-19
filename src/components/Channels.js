@@ -1,8 +1,13 @@
 const Channels = ({ provider, account, dappcord, channels, currentChannel, setCurrentChannel }) => {
-    const channelHandler = () => {
-        console.log("click")
-        
-        return 
+    const channelHandler = async (channel) => {
+        const hasJoined = await dappcord.hasJoined(channel.id, account)
+
+        if (hasJoined) {
+            console.log(hasJoined)
+        } else {
+            const signer = await provider.getSigner()
+            await dap
+        }
     }
     
     return (
