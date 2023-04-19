@@ -3,7 +3,7 @@ const Channels = ({ provider, account, dappcord, channels, currentChannel, setCu
         const hasJoined = await dappcord.hasJoined(channel.id, account)
 
         if (hasJoined) {
-            console.log(hasJoined)
+            setCurrentChannel(channel)
         } else {
             const signer = await provider.getSigner()
             const transaction = await dappcord
@@ -24,7 +24,16 @@ const Channels = ({ provider, account, dappcord, channels, currentChannel, setCu
 
                 <ul>
                     {channels.map((channel, index) => (
-                        <li key={index} onClick={() => channelHandler(channel)}>
+                        <li
+                            key={index}
+                            onClick={() => channelHandler(channel)}
+                            className={
+                                currentChannel &&
+                                currentChannel.id.toString() === channel.id.toString()
+                                    ? "active"
+                                    : ""
+                            }
+                        >
                             {channel.name}
                         </li>
                     ))}

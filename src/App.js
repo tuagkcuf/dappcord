@@ -32,8 +32,9 @@ function App() {
         setProvider(provider)
 
         const network = await provider.getNetwork()
+        console.log(await provider.getCode(config[network.chainId]["Dappcord"]["address"]))
         const dappcord = new ethers.Contract(
-            config[network.chainId].Dappcord.address,
+            config[network.chainId]["Dappcord"]["address"],
             Dappcord,
             provider
         )
