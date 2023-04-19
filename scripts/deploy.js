@@ -12,7 +12,6 @@ async function main() {
     // deploy contract
     const Dappcord = await ethers.getContractFactory("Dappcord")
     const dappcord = await Dappcord.deploy(NAME, SYMBOL)
-    await dappcord.deployed()
 
     console.log(`Deployed Dappcord Contract at: ${dappcord.address}`)
 
@@ -26,6 +25,8 @@ async function main() {
 
         console.log(`Created text channel #${CHANNEL_NAMES[i]}`)
     }
+
+    console.log(await dappcord.totalChannels())
 }
 
 main().catch((error) => {
